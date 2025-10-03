@@ -1,9 +1,8 @@
-// utils/api.ts
 import type { Product } from "../data/products";
 
-// Set the base URL for your deployed backend
 const BASE_URL = "https://backend-lyrt.onrender.com/api";
 
+// Product fetch remains unchanged
 export async function getProducts(): Promise<Product[]> {
   const response = await fetch(`${BASE_URL}/products`);
   if (!response.ok) {
@@ -27,7 +26,19 @@ export async function getProducts(): Promise<Product[]> {
     rating: 0,
     reviews: 0,
     description: p.description,
-    // 🔹 assign tags in rotation so filtering works
     tag: (["featured", "popular", "new"] as const)[i % 3],
   }));
+}
+
+// 🔹 Add login API function
+export async function loginUser(credentials: { email: string; password: string }) {
+  const response = await fetch(`${BASE_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(credentials),
+  });
+  if (!response.ok) {
+    throw new Error("Login failed");
+  }
+  return await response.json();
 }
