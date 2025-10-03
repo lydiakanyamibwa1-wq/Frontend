@@ -1,8 +1,11 @@
 // utils/api.ts
 import type { Product } from "../data/products";
 
+// Set the base URL for your deployed backend
+const BASE_URL = "https://backend-lyrt.onrender.com/api";
+
 export async function getProducts(): Promise<Product[]> {
-  const response = await fetch("http://localhost:7000/api/products");
+  const response = await fetch(`${BASE_URL}/products`);
   if (!response.ok) {
     throw new Error("Failed to fetch products");
   }
